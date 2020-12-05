@@ -1,6 +1,8 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'adaptive_flat_button.dart';
 class NewTransaction extends StatefulWidget {
   final Function addNewTr;
 
@@ -49,55 +51,57 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              autocorrect: true,
-              onSubmitted: (_) => _submitData(),
-              decoration: InputDecoration(labelText: 'Tytuł'),
-              controller: titleInputControler,
-              // onChanged: (value) {
-              //   titleInput = value;
-              // },
-            ),
-            TextField(
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              autocorrect: true,
-              decoration: InputDecoration(labelText: 'Kwota'),
-              controller: amountInputControler,
-
-              // onChanged: (value) => amountInput = value,
-            ),
-            Container(
-              height: 80,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Text(_selectDate == null
-                          ? 'Brak wybranej daty'
-                          : 'Wybrana data ${DateFormat.yMd().format(_selectDate)}')),
-                  FlatButton(
-                      textColor: Colors.purple,
-                      onPressed: _presentDayPicker,
-                      child: Text(
-                        'Wybierz datę',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ))
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                autocorrect: true,
+                onSubmitted: (_) => _submitData(),
+                decoration: InputDecoration(labelText: 'Tytuł'),
+                controller: titleInputControler,
+                // onChanged: (value) {
+                //   titleInput = value;
+                // },
               ),
-            ),
-            RaisedButton(
-              onPressed: _submitData,
-              child: Text('Dodaj Tranzakcję'),
-              color: Theme.of(context).primaryColor,
-              textColor: Theme.of(context).textTheme.button.color,
-            )
-          ],
+              TextField(
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                autocorrect: true,
+                decoration: InputDecoration(labelText: 'Kwota'),
+                controller: amountInputControler,
+
+                // onChanged: (value) => amountInput = value,
+              ),
+              Container(
+                height: 80,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: Text(_selectDate == null
+                            ? 'Brak wybranej daty'
+                            : 'Wybrana data ${DateFormat.yMd().format(_selectDate)}')),
+                    AdaptiveFlatButton('Wybierz datę', _presentDayPicker)
+                  ],
+                ),
+              ),
+              RaisedButton(
+                onPressed: _submitData,
+                child: Text('Dodaj Tranzakcję'),
+                color: Theme.of(context).primaryColor,
+                textColor: Theme.of(context).textTheme.button.color,
+              )
+            ],
+          ),
         ),
       ),
     );
